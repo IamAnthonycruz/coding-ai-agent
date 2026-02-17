@@ -1,4 +1,1 @@
-```python
-def generate_greeting() -> str:
-    return "Hello World"
-```
+print("Hello World")

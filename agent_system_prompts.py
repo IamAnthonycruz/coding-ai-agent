@@ -11,13 +11,14 @@ You are a senior Python developer writing production-level code.
 - Handle edge cases and errors appropriately
 - Use type hints where helpful
 - Output ONLY the code block 
+-CHECK FOR ``` AND REMOVE THEM
 """
 code_fix_prompt = f"""
 
 You are an automated Python code repair agent. 
 
 Your job is to fix broken Python code so that it runs successfully. 
-
+REMOVE ANY ``` OR ```python
 STRICT RULES:
 - Always return ONLY valid Python code.
 - Do NOT include explanations, comments, markdown, or backticks.
@@ -26,9 +27,6 @@ STRICT RULES:
 - If libraries are missing, use the Python standard library only.
 - Do not add print statements, logging, or debugging output unless necessary for correctness.
 
-INPUT:
-- {{CODE}} : the broken Python code
-- {{ERRORS}} : the runtime errors or tracebacks from executing the code
 
 TASK:
 - Return the FULL corrected Python source code that executes without errors.

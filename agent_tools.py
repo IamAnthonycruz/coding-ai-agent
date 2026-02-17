@@ -16,7 +16,6 @@ def run_code(pythonStr:str, is_code_fixer=False):
     if is_code_fixer:
         file_name = 'test.py'
     file_path = os.path.join(folder_path, file_name)
-    
     with open(file_path, "w") as file:
         file.write(pythonStr)
     result = subprocess.run(['python', file_path], cwd=folder_path, capture_output=True, text=True)
@@ -28,9 +27,6 @@ def run_code(pythonStr:str, is_code_fixer=False):
 async def create_code(instructions: str):
     return await generate_prompt(instructions, system_prompt=coding_system_prompt)
 
-
-def finish(result: str):
-    return True, result
 
 def list_files(path:Path,*, recursive=False, include_folders=False):
     if not path.is_dir():
@@ -74,6 +70,8 @@ def write_file(file_name: str, content: str):
         f.write(content)
 
     return f"Tool result: Wrote {len(content)} chars to {str(file_path)}"
+
+
 def run_command(command: Union[str, List[str]], *, timeout: int=30, shell:bool =False):
     if isinstance(command, str) and not shell:
         command = shlex.split(command)
