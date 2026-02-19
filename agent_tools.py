@@ -44,19 +44,21 @@ def list_files(path:Path,*, recursive=False, include_folders=False):
 
 
 def read_file(file_path: Path, max_size=2*1024*1024):
-    if not file_path.is_file():
+    folder = Path("C:/Users/charl/Documents/coding-agent/")
+    my_file_path = folder/file_path
+    if not my_file_path.is_file():
         raise FileNotFoundError("File could not be found")
-    if file_path.stat().st_size > max_size:
+    if my_file_path.stat().st_size > max_size:
         raise ValueError("File too large for processing")
     try:
-        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+        with open(my_file_path, "r", encoding="utf-8", errors="ignore") as f:
             return f.read()
     except Exception:
         raise
 
 def write_file(file_name: str, content: str):
     # Hardcoded folder path
-    folder = Path("C:/Users/charl/Documents/coding-agent/sandbox")  # <-- your fixed folder
+    folder = Path("C:/Users/charl/Documents/coding-agent/")  # <-- your fixed folder
     file_path = folder / file_name
 
     # Ensure the folder exists
@@ -72,7 +74,7 @@ def write_file(file_name: str, content: str):
     return f"Tool result: Wrote {len(content)} chars to {str(file_path)}"
 
 
-def run_command(command: Union[str, List[str]], *, timeout: int=30, shell:bool =False):
+def run_shell(command: Union[str, List[str]], *, timeout: int=30, shell:bool =False):
     if isinstance(command, str) and not shell:
         command = shlex.split(command)
         result = subprocess.run(
