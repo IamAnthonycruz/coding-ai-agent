@@ -24,9 +24,6 @@ def run_code(pythonStr:str, is_code_fixer=False):
     output = [result.stdout, 0]
     return output
 
-async def create_code(instructions: str):
-    return await generate_prompt(instructions, system_prompt=coding_system_prompt)
-
 
 def list_files(path:Path,*, recursive=False, include_folders=False):
     if not path.is_dir():
@@ -65,7 +62,7 @@ def write_file(file_name: str, content: str):
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
     # Choose mode
-    mode = 'a' if file_path.exists() else 'w'
+    mode = 'w'
 
     # Write content
     with file_path.open(mode) as f:

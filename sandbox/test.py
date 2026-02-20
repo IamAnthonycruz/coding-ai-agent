@@ -1,7 +1,5 @@
 import random
 
-def generate_random_numbers() -> List[int]:
-    numbers = []
-    for _ in range(100):
-        numbers.append(random.randint(1, 100))
-    return numbers
+def generate_random_numbers() -> list[int]:
+    """Generate a list of 100 random numbers between 1 and 1000."""
+    return [random.randint(1, 1000) for _ in range(100)]
