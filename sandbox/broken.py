@@ -1,1 +1,1 @@
-prit(hello)
+prit(i)
