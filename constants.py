@@ -24,7 +24,11 @@ TOOLS = {
         "description": "Run a shell command and return output",
         "parameters": {"command": "string"},
         "function": "run_shell"
+    },
+   "search_files": {
+        "description": "Search for a pattern in Python files and return matching lines with surrounding context. Use when you need to find where something is defined or used without reading entire files.",
+        "parameters": {"pattern": "string", "directory": "string (default: sandbox)"},
+        "function": "search_files"
     }
-    
     
 }

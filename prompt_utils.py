@@ -9,3 +9,8 @@ def get_coding_prompt(task, libraries=None, context=None, errors=None):
     if errors:
         coding_prompt += f"Errors: {errors}\n"    
     return coding_prompt
+
+def get_task_system_prompt(prompt:str):
+    system_prompt = f"""Create a 3-5 step plan to accomplish this
+Task: {prompt}"""
+    return system_prompt

@@ -1,11 +1,12 @@
 
 from agent_tools import run_code
 from apis.ollama_api import generate_prompt
-from prompt_utils import get_coding_prompt
+from prompt_utils import get_coding_prompt, get_task_system_prompt
 from agent_system_prompts import (
     coding_system_prompt,
     code_fix_prompt,
     instruction_system_prompt,
+    planner_system_prompt
 )
 
 async def code_worker(prompt: str, max_retries: int = 100):
@@ -37,3 +38,9 @@ async def code_worker(prompt: str, max_retries: int = 100):
         retries += 1
 
     return code
+
+async def planner_worker(prompt:str):
+    plan_prompt = get_task_system_prompt(prompt=prompt)
+    plan = await generate_prompt(plan_prompt, planner_system_prompt)
+    print(plan)
+    return plan
