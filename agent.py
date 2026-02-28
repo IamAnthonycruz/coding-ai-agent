@@ -11,7 +11,34 @@ from workers import code_worker, planner_worker
 MAX_HISTORY = 5
 MAX_RESULT_CHARS = 500
 
-
+async def create_plan(task:str) -> list[str]:
+    planning_prompt = f"""You are a coding agent. Before taking any action, create a clear plan.
+    Task: {task}
+    Output a numbered paln with 3-5  specific steps. Be concrete - name files, functions, tools
+    Do not write any code yet. just plan.
+    Example format:
+    1. REad the existing files to understand the codebase
+    2. Write calculator.py with add, subtract, multiply, divide functions
+    3. Write test_calculator.py with pytests test
+    4. Run the tests and fix any failures
+    5. Use finish tool to declare completion
+    Your plan: """
+    response = await generate_prompt(
+        prompt=planning_prompt,
+        system_prompt="You are a planning assistant. Output only a numbered list",
+        temperature=0
+    )
+    return parse_plan(response)
+def parse_plan(response:str) -> list[str]:
+    lines = response.strip().split('\n')
+    steps = []
+    
+    for line in lines:
+        line = line.strip()
+        if line and line[0].isdigit():
+            step = line.split(".", 1)[-1].strip()
+            steps.append(step)
+    return steps
 def truncate_result(result, max_chars: int = MAX_RESULT_CHARS) -> str:
     text = str(result)
     if len(text) <= max_chars:
@@ -38,7 +65,7 @@ def search_files(pattern: str, directory: str = "sandbox", context: int = 3):
     return "\n".join(results)[:2000]
 
 
-async def agent_loop(prompt: str, MAX_ATTEMPTS):
+async def agent_loop(prompt: str, MAX_ATTEMPTS, plan: list[str]=None):
     history = []
     output = prompt
     current_attempt = 0
